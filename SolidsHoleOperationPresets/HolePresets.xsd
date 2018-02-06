@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="Categories">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Category"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Presets"/>
+      </xs:sequence>
+      <xs:attribute name="Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Presets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Preset"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Preset">
+    <xs:complexType>
+      <xs:choice minOccurs="0">
+        <xs:element ref="Counterbore"/>
+        <xs:element ref="TopChamfer"/>
+      </xs:choice>
+      <xs:attribute name="BottomAngle" use="required" type="xs:integer"/>
+      <xs:attribute name="Depth" use="required" type="xs:decimal"/>
+      <xs:attribute name="Diameter" use="required" type="xs:decimal"/>
+      <xs:attribute name="IsMetric" use="required" type="xs:boolean"/>
+      <xs:attribute name="Name" use="required"/>
+      <xs:attribute name="SetDepthBy" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Counterbore">
+    <xs:complexType>
+      <xs:attribute name="Depth" use="required" type="xs:decimal"/>
+      <xs:attribute name="Diameter" use="required" type="xs:decimal"/>
+      <xs:attribute name="IsMetric" use="required" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TopChamfer">
+    <xs:complexType>
+      <xs:attribute name="Angle" use="required" type="xs:integer"/>
+      <xs:attribute name="Diameter" use="required" type="xs:integer"/>
+      <xs:attribute name="IsMetric" use="required" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
