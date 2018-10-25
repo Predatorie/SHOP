@@ -1,9 +1,8 @@
-﻿<controls:MetroWindow x:Class="SolidsHoleOperationPresets.Views.Shell"
+﻿<controls:MetroWindow x:Class="SHOP.Views.ShellView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SolidsHoleOperationPresets.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
@@ -47,6 +46,7 @@
                   VirtualizingStackPanel.IsVirtualizing="true" 
                   FocusManager.IsFocusScope="True"
                   ItemsSource="{Binding Path=Categories, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      
                   >
             </ListView>
         </GroupBox>
@@ -87,6 +87,7 @@
                     Margin="2 0 10 0"  
                     HorizontalAlignment="Left" 
                     Content="Open"
+                    Visibility="Hidden"
                     Style="{DynamicResource AccentedSquareButtonStyle}"
                     controls:ControlsHelper.ContentCharacterCasing="Upper"
                     Command="{Binding OpenCommand}"

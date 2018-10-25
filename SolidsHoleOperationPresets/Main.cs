@@ -2,7 +2,7 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets
+namespace SHOP
 {
     using Mastercam.App;
     using Mastercam.App.Types;

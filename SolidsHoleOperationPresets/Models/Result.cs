@@ -2,7 +2,7 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Models
+namespace SHOP.Models
 {
     using System;
 

@@ -2,12 +2,11 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-using SolidsHoleOperationPresets.Localization;
-
-namespace SolidsHoleOperationPresets.Services
+namespace SHOP.Services
 {
     using Mastercam;
-    using Models;
+
+    using SHOP.Models;
 
     public partial class SerializationManager
     {
@@ -28,16 +27,10 @@ namespace SolidsHoleOperationPresets.Services
     {
         public Result<Categories> Open()
         {
-            var result = this.browser.Open();
-            if (result.IsFailure)
-            {
-                return Result.Fail<Categories>(result.Error);
-            }
-
-            var data = this.serialization.DeSerialize(result.Value);
+            var data = this.serialization.DeSerialize();
             return data.IsFailure ?
                 Result.Fail<Categories>(data.Error) :
-                this.serialization.DeSerialize(result.Value);
+                Result.Ok(data.Value);
         }
 
         public Result<string> SaveAs(Categories categories)

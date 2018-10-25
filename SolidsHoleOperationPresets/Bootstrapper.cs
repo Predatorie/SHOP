@@ -2,23 +2,29 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets
+namespace SHOP
 {
     using System.Windows;
+
     using MahApps.Metro.Controls.Dialogs;
+
     using Microsoft.Practices.Unity;
+
     using Prism.Unity;
-    using Services;
-    using Views;
+
+    using SHOP.Services;
+    using SHOP.ViewModels;
+    using SHOP.Views;
 
     public class Bootstrapper : UnityBootstrapper
     {
         /// <summary> The window. </summary>
-        private Shell window;
+        private ShellView window;
 
         protected override DependencyObject CreateShell()
         {
-            this.window = this.Container.Resolve<Shell>();
+            this.window = this.Container.Resolve<ShellView>();
+            this.window.DataContext = this.Container.Resolve<ShellViewViewModel>();
             return this.window;
         }
 

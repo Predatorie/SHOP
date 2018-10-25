@@ -2,15 +2,16 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Services
+namespace SHOP.Services
 {
     using Mastercam;
-    using Models;
+
+    using SHOP.Models;
 
     public interface ISerializationService
     {
         Result<bool> Serialize(Categories categories, string path);
 
-        Result<Categories> DeSerialize(string path);
+        Result<Categories> DeSerialize();
     }
 }

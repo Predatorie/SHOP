@@ -22,7 +22,7 @@ APPLICATION "__SolidsHoleOperationPresets__"
 ######################
 #
 # Update paths below to match your install path and project name.
-FUNC_DLL   "CHOOKS\SHOP.dll"
+FUNC_DLL   "CHOOKS\SHOP\SHOP.dll"
 RES_DLL    "SAME"
 dnRES_NAME "SHOP.FunctionTable.Resource"
 CATEGORY   "Solids Hole Operation Presets"

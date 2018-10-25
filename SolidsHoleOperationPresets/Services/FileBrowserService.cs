@@ -2,12 +2,14 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Services
+namespace SHOP.Services
 {
     using System.Windows.Forms;
-    using Localization;
+
     using Mastercam.IO;
-    using Models;
+
+    using SHOP.Localization;
+    using SHOP.Models;
 
     public class FileBrowserService : IFileBrowserService
     {

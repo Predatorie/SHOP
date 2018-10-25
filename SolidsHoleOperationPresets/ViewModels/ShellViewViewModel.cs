@@ -2,18 +2,22 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.ViewModels
+namespace SHOP.ViewModels
 {
     using System.Windows.Input;
-    using Localization;
+
     using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
+
     using Mastercam;
+
     using Prism.Commands;
     using Prism.Mvvm;
-    using Services;
 
-    public class ShellViewModel : BindableBase
+    using SHOP.Localization;
+    using SHOP.Services;
+
+    public class ShellViewViewModel : BindableBase
     {
         #region Private Fields
 
@@ -52,11 +56,11 @@ namespace SolidsHoleOperationPresets.ViewModels
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShellViewModel"/> class.
+        /// Initializes a new instance of the <see cref="ShellViewViewModel"/> class.
         /// </summary>
         /// <param name="serializationManager">The ISerializationManager singleton</param>
         /// <param name="dialogCoordinator">The IDialogCoordinator singleton</param>
-        public ShellViewModel(
+        public ShellViewViewModel(
             ISerializationManager serializationManager,
             IDialogCoordinator dialogCoordinator)
         {
@@ -76,6 +80,8 @@ namespace SolidsHoleOperationPresets.ViewModels
             this.OpenCommand = new DelegateCommand(this.OnOpenCommand);
 
             this.CloseCommand = new DelegateCommand<MetroWindow>(v => v?.Close());
+
+            this.Open();
         }
 
         #endregion
@@ -133,6 +139,27 @@ namespace SolidsHoleOperationPresets.ViewModels
         #endregion
 
         #region Private Methods
+
+        private void Open()
+        {
+            var result = this.manager.Open();
+            if (result.IsFailure)
+            {
+                // Ignore user cancelling out of the dialog
+                if (result.Error.Contains(AppStrings.UserCancelled))
+                {
+                    return;
+                }
+
+                // Valid error
+                this.ShowErrorMessage(result.Error);
+            }
+            else
+            {
+                // Update the data source
+                this.Categories = result.Value;
+            }
+        }
 
         private void OnOpenCommand()
         {

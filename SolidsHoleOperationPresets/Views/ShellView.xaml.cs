@@ -2,17 +2,18 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Views
+namespace SHOP.Views
 {
     using System.Windows;
+
     using MahApps.Metro.Controls.Dialogs;
 
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class Shell
+    public partial class ShellView  
     {
-        public Shell() => this.InitializeComponent();
+        public ShellView() => this.InitializeComponent();
 
         /// <summary>
         /// If using DialogParticipation on Windows which open / close frequently you will get a

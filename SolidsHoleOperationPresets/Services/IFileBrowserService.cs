@@ -2,9 +2,9 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Services
+namespace SHOP.Services
 {
-    using Models;
+    using SHOP.Models;
 
     public interface IFileBrowserService
     {

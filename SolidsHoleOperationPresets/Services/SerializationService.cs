@@ -2,24 +2,24 @@
 // Copyright (c) Mick George @Osoy. All rights reserved.
 // </copyright>
 
-namespace SolidsHoleOperationPresets.Services
+namespace SHOP.Services
 {
+    using Mastercam;
+    using SHOP.Models;
     using System;
-    using System.Reflection;
+    using System.Diagnostics;
     using System.Xml;
     using System.Xml.Schema;
     using System.Xml.Serialization;
-    using Mastercam;
-    using Models;
 
     public class SerializationService : ISerializationService
     {
         public Result<bool> Serialize(Categories categories, string path)
-        { 
+        {
             return Result.Ok(default(bool));
         }
 
-        public Result<Categories> DeSerialize(string path)
+        public Result<Categories> DeSerialize()
         {
             try
             {
@@ -32,21 +32,24 @@ namespace SolidsHoleOperationPresets.Services
                 config.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
                 config.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
 
-                var assembly = Assembly.GetExecutingAssembly();
-                using (var schemaStream = assembly.GetManifestResourceStream("SolidsHoleOperationPresets.HolePresets.xsd"))
+                using (var reader = new XmlTextReader(MastercamPaths.SolidHolesPresetSchema))
                 {
-                    if (schemaStream != null)
-                    {
-                        var schema = XmlSchema.Read(schemaStream, null);
-                        config.Schemas.Add(schema);
+                    var schema = XmlSchema.Read(reader, this.ValidationCallback);
 
-                        using (var xmlReader = XmlReader.Create(path, config))
-                        {
-                            var categories = (Categories)serializer.Deserialize(xmlReader);
-                            return categories == null ?
-                                Result.Fail<Categories>($"Deserialization failed {path}") :
-                                Result.Ok(categories);
-                        }
+                    if (schema == null)
+                    {
+                        return Result.Fail<Categories>("Failed to read schema");
+                    }
+
+                    config.Schemas.Add(schema);
+
+                    // C:\Users\Public\Documents\Shared Mastercam 2020\common\FBM\SolidsHoleOperationPresets.xml
+                    using (var xmlReader = XmlReader.Create(MastercamPaths.SolidHolesPresetFile, config))
+                    {
+                        var categories = (Categories)serializer.Deserialize(xmlReader);
+                        return categories == null ?
+                                   Result.Fail<Categories>($"Deserialization failed {MastercamPaths.SolidHolesPresetFile}") :
+                                   Result.Ok(categories);
                     }
                 }
             }
@@ -55,7 +58,13 @@ namespace SolidsHoleOperationPresets.Services
                 return Result.Fail<Categories>(e.Message);
             }
 
-            return Result.Fail<Categories>($"Deserialization failed {path}");
+            return Result.Fail<Categories>($"Deserialization failed {MastercamPaths.SolidHolesPresetFile}");
+        }
+
+
+        private void ValidationCallback(object sender, ValidationEventArgs args)
+        {
+            Debug.WriteLine(args.Message);
         }
     }
 }
