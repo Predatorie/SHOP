@@ -57,8 +57,6 @@ namespace SHOP.Services
             {
                 return Result.Fail<Categories>(e.Message);
             }
-
-            return Result.Fail<Categories>($"Deserialization failed {MastercamPaths.SolidHolesPresetFile}");
         }
 
 
