@@ -32,42 +32,55 @@
                 <ResourceDictionary Source="../ShopResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--<DataTemplate x:Key="PresetTemplate" DataType="{x:Type mastercam:Preset}" >
+                <Grid x:Name="PresetsGrid" DataContext="{Binding  }" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
+                    <TextBlock x:Name="presetName" Text="{Binding Name}" Grid.Column="0" />
+                    <controls:NumericUpDown x:Name="presetDiameter" Value="{Binding Diameter}" Grid.Column="2"  HorizontalAlignment="Center"/>
+                    <controls:NumericUpDown x:Name="presetDepth" Value="{Binding Depth}" Grid.Column="3"  HorizontalAlignment="Center" />
+                    <TextBlock x:Name="presetBottomAngle" Text="{Binding BottomAngle}" Grid.Column="4"  HorizontalAlignment="Center" />
+                    <TextBlock x:Name="presetSetDepthBy" Text="{Binding SetDepthBy}" Grid.Column="5"  HorizontalAlignment="Center" />
+                    <CheckBox x:Name="presetIsMetric" IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="6" HorizontalAlignment="Center"/>
+                </Grid>
 
-            <!--<DataTemplate x:Key="Level3" DataType="{x:Type mastercam:Category}" >
-                <GroupBox Header="{Binding Name}" >
-                    <StackPanel>
-                        <ItemsControl x:Name="PresetsGrid" ItemsSource="{Binding Path=Presets, UpdateSourceTrigger=PropertyChanged}" >
-                            <Grid DataContext="{Binding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
+            </DataTemplate>
 
-                                <TextBlock x:Name="presetName" Text="{Binding Name}" Grid.Column="0" />
-                                <controls:NumericUpDown x:Name="presetDiameter" Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"  HorizontalAlignment="Center"/>
-                                <controls:NumericUpDown x:Name="presetDepth" Value="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3"  HorizontalAlignment="Center" />
-                                <TextBlock x:Name="presetBottomAngle" Text="{Binding BottomAngle, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4"  HorizontalAlignment="Center" />
-                                <TextBlock x:Name="presetSetDepthBy" Text="{Binding SetDepthBy, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"  HorizontalAlignment="Center" />
-                                <CheckBox x:Name="presetIsMetric" IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="6" HorizontalAlignment="Center"/>
-                            </Grid>
-                        </ItemsControl>
-                    </StackPanel>
-                </GroupBox>
-            </DataTemplate>-->
+            <HierarchicalDataTemplate x:Key="CategoryTemplate" 
+                                      DataType="{x:Type mastercam:Category}"
+                                      ItemsSource="{Binding Presets, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemTemplate="{StaticResource PresetTemplate}"
+                                      >
+                <StackPanel x:Name="Panel" Orientation="Vertical" >
+                    <Label x:Name="categoryName" 
+                           Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" 
+                           Height="35" 
+                           BorderThickness="1" 
+                           BorderBrush="White" 
+                           Background="Crimson" 
+                           Foreground="White"/>
+
+                </StackPanel>
+            </HierarchicalDataTemplate>
+
+            <HierarchicalDataTemplate x:Key="ParentTemplate" DataType="{x:Type mastercam:Categories}"                                       
+                                          ItemsSource="{Binding Category, UpdateSourceTrigger=PropertyChanged}" 
+                                          ItemTemplate="{StaticResource CategoryTemplate}">
+            </HierarchicalDataTemplate>-->
         </ResourceDictionary>
-
     </controls:MetroWindow.Resources>
-
 
     <Grid>
 
@@ -76,32 +89,33 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" >
+        <GroupBox Grid.Row="0" Header="PRESETS" >
 
-            <ListBox Name="GroupView" 
-                     ItemsSource="{Binding Path=Categories.Category, UpdateSourceTrigger=PropertyChanged}"
-                     DataContext="{Binding }" >
+            <ListBox 
+                ItemsSource="{Binding Path=Categories.Category}"
+                VirtualizingStackPanel.IsVirtualizing="true"  >
+
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel DataContext="{Binding}" >
-                            <GroupBox Header="{Binding Path=Name }" >
-                                <ListBox ItemsSource="{Binding Path=Presets, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding }" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
+                    <DataTemplate DataType="{x:Type mastercam:Category}">
+                        <GroupBox Header="{Binding Name}" >
+                            <StackPanel Orientation="Horizontal">
+                                <ListBox 
+                                    ItemsSource="{Binding Presets}" 
+                                    VirtualizingStackPanel.IsVirtualizing="true" >
 
-                                            <Grid DataContext="{Binding}" >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type mastercam:Preset}">
+
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="175"/>
+                                                    <ColumnDefinition Width="175" />
+                                                    <ColumnDefinition Width="175"/>
+                                                    <ColumnDefinition Width="175"/>
+                                                    <ColumnDefinition Width="175"/>
+                                                    <ColumnDefinition Width="175"/>
+                                                    <ColumnDefinition Width="175"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
 
                                                 <TextBlock x:Name="presetName" Text="{Binding Name}" Grid.Column="0" />
                                                 <controls:NumericUpDown x:Name="presetDiameter" Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"  HorizontalAlignment="Center"/>
@@ -110,15 +124,15 @@
                                                 <TextBlock x:Name="presetSetDepthBy" Text="{Binding SetDepthBy, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"  HorizontalAlignment="Center" />
                                                 <CheckBox x:Name="presetIsMetric" IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="6" HorizontalAlignment="Center"/>
                                             </Grid>
+
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                            </GroupBox>
-                        </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </GroupBox>
 
         <StackPanel x:Name="PanelButtons" 
