@@ -226,7 +226,7 @@ namespace SHOP.ViewModels
             AffirmativeButtonText = AppStrings.OK,
             AnimateShow = true,
             AnimateHide = false,
-            ColorScheme = MetroDialogColorScheme.Theme,
+            ColorScheme = MetroDialogColorScheme.Accented,
         };
 
         private async void ShowErrorMessage(string error) => await this.dialogCoordinator.ShowMessageAsync(

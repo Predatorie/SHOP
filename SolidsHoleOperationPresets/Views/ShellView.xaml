@@ -32,8 +32,31 @@
                 <ResourceDictionary Source="../ShopResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <Style x:Key="NumericTextBoxStyle" TargetType="controls:NumericUpDown" >
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Interval" Value="0.01" />
+            </Style>
+
             <DataTemplate x:Key="PresetTemplate" DataType="{x:Type mastercam:Preset}" >
-                <Grid x:Name="PresetsGrid" >
+
+                <!--TODO: Switch to GridView -->
+                <ListView ItemsSource="{Binding}">
+                    <ListView.View>
+
+
+                        <GridView>
+
+                            <GridViewColumn Header = "Name" DisplayMemberBinding = "{Binding Name}" Width = "100"/>
+                            <GridViewColumn Header = "ID" DisplayMemberBinding = "{Binding Depth}" Width = "100"/>
+                            <GridViewColumn Header = "Diameter" DisplayMemberBinding = "{Binding Diameter}" Width = "100"/>
+                            <GridViewColumn Header = "BottomAngle" DisplayMemberBinding = "{Binding BottomAngle}" Width = "100"/>
+                            <GridViewColumn Header = "IsMetric" DisplayMemberBinding = "{Binding IsMetric}" Width = "100"/>
+                            <GridViewColumn Header = "SetDepthBy" DisplayMemberBinding = "{Binding SetDepthBy}" Width = "100"/>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <!--<Grid x:Name="PresetsGrid" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="200" />
@@ -53,19 +76,117 @@
                     <TextBlock x:Name="presetBottomAngle" Text="{Binding BottomAngle}" Grid.Column="4"  HorizontalAlignment="Left" />
                     <TextBlock x:Name="presetSetDepthBy" Text="{Binding SetDepthBy}" Grid.Column="5"  HorizontalAlignment="Left" />
                     <CheckBox x:Name="presetIsMetric" IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="6" HorizontalAlignment="Left"/>
-                </Grid>
+                </Grid>-->
 
             </DataTemplate>
 
-            <HierarchicalDataTemplate x:Key="ParentTemplate" DataType="{x:Type mastercam:Category}"                                       
-                                          ItemsSource="{Binding Presets, UpdateSourceTrigger=PropertyChanged}"
-                                          ItemTemplate="{StaticResource PresetTemplate}"
-                                      >
+            <DataTemplate x:Key="ParentTemplate" DataType="{x:Type mastercam:Category}" >
                 <StackPanel>
-                    <GroupBox Header="{Binding Name}" />
+                    <Expander controls:ExpanderHelper.HeaderDownStyle="{DynamicResource ExpanderDownHeaderStyle}" Margin="2" Header="{Binding Name}" ExpandDirection="Down" IsExpanded="False" BorderThickness="0,0,0,1" >
+                        <ListView ItemsSource="{Binding Presets}" >
+                            <ListView.View>
+                                <GridView >
+                                    <GridViewColumn Width = "200">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="NAME" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="200" />
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <TextBlock Margin="2" x:Name="Diameter" Text="{Binding Name}"  />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="DEPTH" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        x:Name="Depth" 
+                                                                        Value="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="DIAMETER" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        x:Name="Diameter" 
+                                                                        Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="BOTTOM ANGLE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        x:Name="BottomAngle" 
+                                                                        Value="{Binding BottomAngle, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "150" >
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="IS-METRIC" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="150"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <CheckBox HorizontalAlignment="Center" Margin="2" 
+                                                          x:Name="Diameter" 
+                                                          IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="SET-DEPTH-BY" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                                <ComboBox Margin="2" x:Name="Diameter" 
+                                                          IsReadOnly="True" 
+                                                          SelectedItem="{Binding SetDepthBy}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Expander>
                 </StackPanel>
 
-            </HierarchicalDataTemplate>
+            </DataTemplate>
+
         </ResourceDictionary>
     </controls:MetroWindow.Resources>
 
@@ -78,15 +199,11 @@
 
         <GroupBox Grid.Row="0" Header="PRESETS" >
 
-            <TreeView x:Name="ProjectTreeview" 
-                      ItemsSource="{Binding Path=Categories.Category}"
-                      Margin="5" 
-                      MinHeight="150"
-                      BorderThickness="1"
-                      ItemTemplate="{StaticResource ParentTemplate}"                          
-                      VirtualizingStackPanel.IsVirtualizing="true" 
-                      FocusManager.IsFocusScope="True"
-                      />
+            <ListView 
+                ItemsSource="{Binding Path=Categories.Category}"
+                ItemTemplate="{StaticResource ParentTemplate}"   
+                VirtualizingStackPanel.IsVirtualizing="true" 
+            />
 
         </GroupBox>
 
