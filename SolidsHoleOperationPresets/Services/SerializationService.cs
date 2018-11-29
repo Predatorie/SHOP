@@ -29,8 +29,8 @@ namespace SHOP.Services
                     ValidationType = ValidationType.Schema
                 };
 
-                config.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
-                config.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
+                //config.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
+                //config.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
 
                 using (var reader = new XmlTextReader(MastercamPaths.SolidHolesPresetSchema))
                 {

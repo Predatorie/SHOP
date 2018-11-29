@@ -4,18 +4,15 @@
 
 namespace SHOP.ViewModels
 {
-    using System.Windows.Input;
-
     using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
-
     using Mastercam;
-
     using Prism.Commands;
     using Prism.Mvvm;
-
     using SHOP.Localization;
     using SHOP.Services;
+    using System.Collections.Generic;
+    using System.Windows.Input;
 
     public class ShellViewViewModel : BindableBase
     {
@@ -50,6 +47,9 @@ namespace SHOP.ViewModels
         /// Backing field for the Categories property
         /// </summary>
         private Categories categories;
+
+        /// <summary> The depths list. </summary>
+        private List<string> depths;
 
         #endregion
 
@@ -127,6 +127,12 @@ namespace SHOP.ViewModels
             set => this.SetProperty(ref this.categories, value);
         }
 
+        public List<string> DepthList
+        {
+            get => this.depths;
+            set => this.SetProperty(ref this.depths, value);
+        }
+
         /// <summary>
         /// Gets the File property value
         /// </summary>
@@ -156,6 +162,9 @@ namespace SHOP.ViewModels
             }
             else
             {
+                // TODO: How to build this dynamically?
+                this.BuildDepthsList();
+
                 // Update the data source
                 this.Categories = result.Value;
             }
@@ -235,6 +244,18 @@ namespace SHOP.ViewModels
                 error,
                 MessageDialogStyle.Affirmative,
                 this.CreateMetroDialogSettings());
+
+        private void BuildDepthsList()
+        {
+            this.depths = new List<string>
+                           {
+                               "Distance",
+                               "ThroughAll"
+                           };
+
+            this.DepthList = new List<string>();
+            this.DepthList.AddRange(this.depths);
+        }
 
         #endregion
     }

@@ -37,21 +37,21 @@
                 <Setter Property="Interval" Value="0.01" />
             </Style>
 
-            <DataTemplate x:Key="PresetTemplate" DataType="{x:Type mastercam:Preset}" >
+            <DataTemplate x:Key="PresetTemplate" DataType="{x:Type mastercam:Categories}" >
 
                 <!--TODO: Switch to GridView -->
-                <ListView ItemsSource="{Binding}">
+                <ListView ItemsSource="{Binding Category}">
                     <ListView.View>
 
 
                         <GridView>
 
                             <GridViewColumn Header = "Name" DisplayMemberBinding = "{Binding Name}" Width = "100"/>
-                            <GridViewColumn Header = "ID" DisplayMemberBinding = "{Binding Depth}" Width = "100"/>
+                            <!--<GridViewColumn Header = "ID" DisplayMemberBinding = "{Binding Depth}" Width = "100"/>
                             <GridViewColumn Header = "Diameter" DisplayMemberBinding = "{Binding Diameter}" Width = "100"/>
                             <GridViewColumn Header = "BottomAngle" DisplayMemberBinding = "{Binding BottomAngle}" Width = "100"/>
                             <GridViewColumn Header = "IsMetric" DisplayMemberBinding = "{Binding IsMetric}" Width = "100"/>
-                            <GridViewColumn Header = "SetDepthBy" DisplayMemberBinding = "{Binding SetDepthBy}" Width = "100"/>
+                            <GridViewColumn Header = "SetDepthBy" DisplayMemberBinding = "{Binding SetDepthBy}" Width = "100"/>-->
 
                         </GridView>
                     </ListView.View>
@@ -80,10 +80,10 @@
 
             </DataTemplate>
 
-            <DataTemplate x:Key="ParentTemplate" DataType="{x:Type mastercam:Category}" >
+            <DataTemplate x:Key="ParentTemplate" DataType="{x:Type mastercam:typeCategory}" >
                 <StackPanel>
                     <Expander controls:ExpanderHelper.HeaderDownStyle="{DynamicResource ExpanderDownHeaderStyle}" Margin="2" Header="{Binding Name}" ExpandDirection="Down" IsExpanded="False" BorderThickness="0,0,0,1" >
-                        <ListView ItemsSource="{Binding Presets}" >
+                        <ListView ItemsSource="{Binding  Presets}" >
                             <ListView.View>
                                 <GridView >
                                     <GridViewColumn Width = "200">
@@ -94,8 +94,8 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
-                                                <TextBlock Margin="2" x:Name="Diameter" Text="{Binding Name}"  />
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
+                                                <TextBlock Margin="2" x:Name="Diameter" Text="{Binding Diameter}"  />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -108,7 +108,7 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
                                                 <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
                                                                         x:Name="Depth" 
                                                                         Value="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
@@ -124,7 +124,7 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
                                                 <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
                                                                         x:Name="Diameter" 
                                                                         Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" />
@@ -140,7 +140,7 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
                                                 <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
                                                                         x:Name="BottomAngle" 
                                                                         Value="{Binding BottomAngle, UpdateSourceTrigger=PropertyChanged}" />
@@ -156,7 +156,7 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
                                                 <CheckBox HorizontalAlignment="Center" Margin="2" 
                                                           x:Name="Diameter" 
                                                           IsChecked="{Binding IsMetric, UpdateSourceTrigger=PropertyChanged}" />
@@ -172,13 +172,155 @@
                                         </GridViewColumn.HeaderTemplate>
 
                                         <GridViewColumn.CellTemplate>
-                                            <DataTemplate DataType="{x:Type mastercam:Preset}">
+                                            <DataTemplate DataType="{x:Type mastercam:typeOperation}">
                                                 <ComboBox Margin="2" x:Name="Diameter" 
                                                           IsReadOnly="True" 
-                                                          SelectedItem="{Binding SetDepthBy}" />
+                                                          SelectedItem="{Binding SetDepthBy, UpdateSourceTrigger=PropertyChanged}" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+
+                                    <!--OPTIONAL TYPE CHAMFER-->
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="CHAMFER-ANGLE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeChamfer}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        x:Name="BottomAngle" 
+                                                                        Value="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="CHAMFER DIA-ABSOLUTE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeChamfer}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding DiameterAbsolute, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <!--OPTIONAL COUNTERBORE TYPE-->
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-BORE DEPTH" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCounterbore}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <!--OPTIONAL COUNTER-DRILL TYPE-->
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-DRILL ANGLE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCounterdrill}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-DRILL DEPTH" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCounterdrill}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-DRILL DIAMETER" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCounterdrill}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                   
+                                    <!--OPTIONAL COUNTER-DRILL TYPE-->
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-SINK DIAMETER" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCountersink}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Diameter, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="C-SINK ANGLE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeCountersink}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <!--OPTIONAL TAPER ANGLE TYPE-->
+                                    <GridViewColumn Width = "175">
+                                        <GridViewColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Label Content="TAPER ANGLE" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}" Width="175"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.HeaderTemplate>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type mastercam:typeTaper}">
+                                                <controls:NumericUpDown Style="{DynamicResource NumericTextBoxStyle}" 
+                                                                        Value="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                   
                                 </GridView>
                             </ListView.View>
                         </ListView>

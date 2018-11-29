@@ -33,7 +33,7 @@
       <xs:attribute name="Diameter" use="required" type="xs:decimal"/>
       <xs:attribute name="IsMetric" use="required" type="xs:boolean"/>
       <xs:attribute name="Name" use="required"/>
-      <xs:attribute name="SetDepthBy" use="required" type="xs:NCName"/>
+      <xs:attribute name="SetDepthBy" use="required" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="Counterbore">
@@ -46,7 +46,7 @@
   <xs:element name="TopChamfer">
     <xs:complexType>
       <xs:attribute name="Angle" use="required" type="xs:integer"/>
-      <xs:attribute name="Diameter" use="required" type="xs:integer"/>
+      <xs:attribute name="DiameterAbsolute" use="required" type="xs:PositiveDouble"/>
       <xs:attribute name="IsMetric" use="required" type="xs:boolean"/>
     </xs:complexType>
   </xs:element>

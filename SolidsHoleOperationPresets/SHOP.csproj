@@ -127,6 +127,7 @@
   <ItemGroup>
     <Content Include="FunctionTable\Assets\Run16.png" />
     <Content Include="FunctionTable\Assets\Run24.png" />
+    <None Include="how_to_use_xsd.png" />
     <Content Include="Resources\Entypo-license.txt" />
     <Content Include="Resources\WindowsIcons-license.txt" />
     <Content Include="SampleData\SolidsHoleOperationPresets.xml" />
